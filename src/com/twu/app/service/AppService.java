@@ -7,10 +7,7 @@ import com.twu.user.AdminUser;
 import com.twu.user.User;
 import com.twu.user.base.AbstractUser;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AppService implements OperatorService {
@@ -115,6 +112,7 @@ public class AppService implements OperatorService {
     @Override
     public void voteInfo(String nameKey, int voteCount) throws InfoException {
         ((User) currentLoinUser).vote(searchSearchInfo(nameKey), voteCount);
+        targets = targets.stream().sorted(Comparator.comparing(Search::getPrice).reversed().thenComparing(Search::getVoteNum).reversed()).collect(Collectors.toList());
     }
 
     private Search searchSearchInfo(String nameKey) {
@@ -128,6 +126,9 @@ public class AppService implements OperatorService {
 
     @Override
     public void buyInfo(String nameKey, int rank, int price) throws InfoException {
+        if (rank < 1 || rank > targets.size()) {
+            throw new InfoException("rank is err number");
+        }
         ((User) currentLoinUser).buy(targets, searchSearchInfo(nameKey), rank, price);
     }
 

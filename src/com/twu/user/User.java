@@ -20,9 +20,9 @@ public class User extends AbstractUser implements UserOption {
             throw new InfoException("price is too low,buy failed");
         }
         target.setPrice(price);
-        target.setPosition(rank);
         targets.remove(target);
         targets.set(rank-1, target);
+        System.out.printf("[system] buy the %s is ok...\n", target.getNameKey());
     }
 
     @Override
