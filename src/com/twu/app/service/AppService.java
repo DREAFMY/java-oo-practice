@@ -112,7 +112,14 @@ public class AppService implements OperatorService {
     @Override
     public void voteInfo(String nameKey, int voteCount) throws InfoException {
         ((User) currentLoinUser).vote(searchSearchInfo(nameKey), voteCount);
-        targets = targets.stream().sorted(Comparator.comparing(Search::getPrice).reversed().thenComparing(Search::getVoteNum).reversed()).collect(Collectors.toList());
+        List<Search> ts = targets.stream().filter(it -> it.getPrice() == 0).sorted(Comparator.comparing(Search::getVoteNum).reversed()).collect(Collectors.toList());
+        for (Search t : targets) {
+            if (t.getPrice() != 0) {
+                int index = targets.indexOf(t);
+                ts.add(index, t);
+            }
+        }
+        targets = ts;
     }
 
     private Search searchSearchInfo(String nameKey) {

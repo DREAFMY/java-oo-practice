@@ -16,8 +16,6 @@ public class Search {
     public int getBase() { return base; }
     public void setBase(int base) { this.base = base; }
 
-    public boolean isBuy() { return price != 0; }
-
     public String getNameKey() { return nameKey; }
     public void setNameKey(String nameKey) { this.nameKey = nameKey; }
 
